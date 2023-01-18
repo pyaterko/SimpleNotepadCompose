@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Simple Notepad Compose</string>
+    <string name="nav_item_todo">Список дел</string>
+    <string name="nav_item_notes">Заметки</string>
+    <string name="nav_item_shopping">Покупки</string>
+
 </resources>
