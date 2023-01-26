@@ -1,33 +1,36 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.bottomnav
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.bottomnav.NavigationItem
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.theme.SimpleNotepadComposeTheme
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.compose.currentBackStackEntryAsState
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.NavigationState
 
 @Composable
-fun MainScreenBottomNavigation() {
-    BottomNavigation(
-
-    ) {
-        val selectedItemPosition= remember {
-            mutableStateOf(0)
-        }
+fun MainScreenBottomNavigation(
+    navigationState: NavigationState
+) {
+    BottomNavigation {
+        val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
         val items =
             listOf(
                 NavigationItem.ToDoItem,
                 NavigationItem.NotesItem,
                 NavigationItem.ShoppingItem
             )
-        items.forEachIndexed { index, navigationItem ->
+        items.forEach { navigationItem ->
+            val selected = navBackStackEntry?.destination?.hierarchy?.any {
+                it.route == navigationItem.screen.route
+            } ?: false
             BottomNavigationItem(
-                selected = selectedItemPosition.value==index,
+                selected = selected,
                 onClick = {
-                          selectedItemPosition.value=index
+                    if(!selected){
+                        navigationState.navigateTo(navigationItem.screen.route)
+                    }
+
                 },
                 icon = {
                     Icon(
@@ -46,26 +49,4 @@ fun MainScreenBottomNavigation() {
         }
 
     }
-}
-
-@Preview
-@Composable
-private fun MainScreenBottomNavigationPreviewLight() {
-    SimpleNotepadComposeTheme(
-        darkTheme = false
-    ) {
-        MainScreenBottomNavigation()
-    }
-
-}
-
-@Preview
-@Composable
-private fun MainScreenBottomNavigationPreviewDark() {
-    SimpleNotepadComposeTheme(
-        darkTheme = true
-    ) {
-        MainScreenBottomNavigation()
-    }
-
 }

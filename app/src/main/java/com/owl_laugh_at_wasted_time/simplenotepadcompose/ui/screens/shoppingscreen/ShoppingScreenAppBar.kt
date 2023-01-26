@@ -6,16 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
- fun MainScreenAppBar() {
+ fun ShoppingScreenAppBar() {
     TopAppBar(
         title = {
-            Text(text = "TopAppBar")
+            Text(text = "Shopping")
         }
     )
 }
 
 @Preview
 @Composable
-fun MainScreenAppBarPreview() {
-  MainScreenAppBar()
+fun ShoppingAppBarPreview() {
+    ShoppingScreenAppBar()
 }
