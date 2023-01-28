@@ -9,13 +9,14 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.rememberNavi
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.bottomnav.MainScreenBottomNavigation
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.NotesScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreen
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.EditNoteScreen
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.edit.EditNoteScreen
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreenViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.EditToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreen
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
+fun MainScreen(shopViewModel: ShoppingScreenViewModel) {
     val navigationState = rememberNavigationState()
     Scaffold(
         bottomBar = {
@@ -45,7 +46,7 @@ fun MainScreen() {
                     navigationState.navHostController.popBackStack()
                 }
             },
-            shopScreenContent = { ShoppingScreen() })
+            shopScreenContent = { ShoppingScreen(shopViewModel = shopViewModel) })
 
     }
 }

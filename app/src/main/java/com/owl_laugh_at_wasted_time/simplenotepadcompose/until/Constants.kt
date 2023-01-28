@@ -3,6 +3,7 @@ package com.owl_laugh_at_wasted_time.simplenotepadcompose.until
 object Constants {
 
     const val DATABASE_TABLE_TODO = "todo_table"
+    const val DATABASE_TABLE_NOTE = "notes_table"
     const val DATABASE_TABLE_SHOPPING = "shopping_table"
     const val DATABASE_NAME = "todo_database"
 

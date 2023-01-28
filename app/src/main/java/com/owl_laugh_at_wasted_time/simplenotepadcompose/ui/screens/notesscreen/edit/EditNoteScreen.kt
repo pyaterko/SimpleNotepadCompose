@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.edit
 
 import android.annotation.SuppressLint
 import androidx.compose.material.*
