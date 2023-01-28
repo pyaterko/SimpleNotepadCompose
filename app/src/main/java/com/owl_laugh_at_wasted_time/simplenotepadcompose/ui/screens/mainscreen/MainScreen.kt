@@ -13,10 +13,14 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreenViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.EditToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreen
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen(shopViewModel: ShoppingScreenViewModel) {
+fun MainScreen(
+    shopViewModel: ShoppingScreenViewModel,
+    toDoListViewModel: ToDoListViewModel
+) {
     val navigationState = rememberNavigationState()
     Scaffold(
         bottomBar = {
@@ -27,7 +31,7 @@ fun MainScreen(shopViewModel: ShoppingScreenViewModel) {
         AppNavGraph(
             navHostController = navigationState.navHostController,
             toDoListScreenContent = {
-                ToDoScreen {
+                ToDoScreen (toDoListViewModel){
                     navigationState.editToDo()
                 }
             },

@@ -2,7 +2,7 @@ package com.owl_laugh_at_wasted_time.simplenotepadcompose.di
 
 import android.content.Context
 import androidx.room.Room
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.NotePadDatabase
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.database.NotePadDatabase
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants
 import dagger.Module
 import dagger.Provides

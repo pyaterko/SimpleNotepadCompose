@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.data
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

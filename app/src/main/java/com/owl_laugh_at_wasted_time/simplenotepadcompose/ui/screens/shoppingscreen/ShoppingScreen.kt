@@ -18,8 +18,8 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.S
 @Composable
 fun ShoppingScreen(shopViewModel: ShoppingScreenViewModel) {
 
-    val listShop =
-        shopViewModel.listItemShopping.observeAsState(emptyList())
+    val listShopState =
+        shopViewModel.listState.observeAsState(ShoppingListScreenState.Initial)
     var shouldShowDialog by remember { mutableStateOf(false) }
     var productName by remember { mutableStateOf("") }
     Scaffold(
@@ -73,13 +73,22 @@ fun ShoppingScreen(shopViewModel: ShoppingScreenViewModel) {
                     end = 8.dp
                 )
         ) {
-            items(listShop.value.size) { item ->
-                ShopItem(
-                    itemShopping = listShop.value[item],
-                    onChecked = { shopViewModel.add(it.copy(done = !it.done)) },
-                    onClickDeleteIcon = { shopViewModel.delete(it) }
-                )
+            when (val state = listShopState.value) {
+                is ShoppingListScreenState.ShopList -> {
+                    val list = state.list
+                    items(list.size) { index ->
+                        ShopItem(
+                            itemShopping = list[index],
+                            onChecked = {
+                                shopViewModel.add(it)
+                            },
+                            onClickDeleteIcon = { shopViewModel.delete(it) }
+                        )
+                    }
+                }
+                ShoppingListScreenState.Initial -> {}
             }
+
         }
     }
 }

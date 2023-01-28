@@ -4,5 +4,5 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 
 sealed class ToDoListScreenState {
     object Initial: ToDoListScreenState()
-    data class ListToDoList(val list:List<ItemToDo>): ToDoListScreenState()
+    data class ToDoList(val list:List<ItemToDo>): ToDoListScreenState()
 }

@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.data
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.data.model
 
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.dao.ShoppingDao
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.entuty.ItemShoppingDbModel

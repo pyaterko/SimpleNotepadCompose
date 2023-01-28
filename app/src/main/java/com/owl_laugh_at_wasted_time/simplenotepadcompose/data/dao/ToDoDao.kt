@@ -9,19 +9,16 @@ import kotlinx.coroutines.flow.Flow
 interface ToDoDao {
 
     @Query("SELECT * FROM ${Constants.DATABASE_TABLE_TODO} ORDER BY id ASC")
-    fun getAllNotes(): Flow<List<ItemToDoDbModel>>
-
-    @Query("SELECT * FROM ${Constants.DATABASE_TABLE_TODO} WHERE id=:noteId")
-    fun getSelectedNote(noteId: Int): Flow<ItemToDoDbModel>
+    fun getAllData(): Flow<List<ItemToDoDbModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun addNote(toDoNote: ItemToDoDbModel)
+    suspend fun add(toDoNote: ItemToDoDbModel)
 
     @Delete
-    suspend fun deleteNote(toDoNote: ItemToDoDbModel)
+    suspend fun delete(toDoNote: ItemToDoDbModel)
 
     @Query("DELETE FROM ${Constants.DATABASE_TABLE_TODO}")
-    suspend fun deleteAllNotes()
+    suspend fun deleteAll()
 
 
 

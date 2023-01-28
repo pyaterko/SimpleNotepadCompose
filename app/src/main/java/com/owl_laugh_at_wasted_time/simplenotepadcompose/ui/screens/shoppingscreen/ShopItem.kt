@@ -71,14 +71,14 @@ fun ShopItem(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var checked by remember {
-                    mutableStateOf(false)
+                    mutableStateOf(itemShopping.done)
                 }
                 Checkbox(
                     checked = checked,
                     colors = myCheckBoxColors(),
                     onCheckedChange = {
                         checked = !checked
-                        onChecked.invoke(itemShopping)
+                        onChecked.invoke(itemShopping.copy(done = checked))
                     }
                 )
                 val textDecoration = if (checked) {

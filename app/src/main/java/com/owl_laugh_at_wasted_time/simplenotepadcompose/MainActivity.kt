@@ -15,12 +15,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val shopViewModel:ShoppingScreenViewModel by viewModels()
+    private val shopViewModel: ShoppingScreenViewModel by viewModels()
+    private val toDoViewModel: ToDoListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             SimpleNotepadComposeTheme {
-                MainScreen(shopViewModel)
+                MainScreen(shopViewModel, toDoViewModel)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -10,14 +9,14 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.l
 
 @Composable
 fun ToDoScreen(
+    toDoListViewModel:ToDoListViewModel,
     editTodo:() -> Unit
 ) {
-    val toDoListViewModel:ToDoListViewModel= viewModel()
-    val screenState = toDoListViewModel.screenState.observeAsState(ToDoListScreenState.Initial)
+    val screenState = toDoListViewModel.listState.observeAsState(ToDoListScreenState.Initial)
 
     when (screenState.value) {
-        is ToDoListScreenState.ListToDoList -> {
-            ListToDoScreen{editTodo()}
+        is ToDoListScreenState.ToDoList -> {
+            ListToDoScreen(toDoListViewModel,screenState.value){editTodo()}
         }
 
         ToDoListScreenState.Initial -> {}
