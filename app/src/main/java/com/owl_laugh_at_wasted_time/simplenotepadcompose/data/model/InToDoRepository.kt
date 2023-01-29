@@ -4,6 +4,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.dao.ToDoDao
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.entuty.ItemToDoDbModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.repositores.ToDoRepository
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

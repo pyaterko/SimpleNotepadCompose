@@ -50,6 +50,7 @@ fun ToDoItem(
                         .weight(1f)
                         .padding(start = 8.dp),
                     text = toDoItem.title,
+                    color=Color.Black,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 20.sp,
 
@@ -76,5 +77,7 @@ fun ToDoItem(
 @Preview
 @Composable
 fun ToDoItemPreview(){
-    ToDoItem(toDoItem = ItemToDo(), onClickDeleteIcon = {})
+    ToDoItem(toDoItem = ItemToDo(
+        title = "obo"
+    ), onClickDeleteIcon = {})
 }

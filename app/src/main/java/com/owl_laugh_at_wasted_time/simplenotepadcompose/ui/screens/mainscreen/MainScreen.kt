@@ -13,13 +13,15 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreenViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.EditToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreen
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit.ToDoEditViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen(
     shopViewModel: ShoppingScreenViewModel,
-    toDoListViewModel: ToDoListViewModel
+    toDoListViewModel: ToDoListViewModel,
+    toDoEditViewModel: ToDoEditViewModel
 ) {
     val navigationState = rememberNavigationState()
     Scaffold(
@@ -36,7 +38,8 @@ fun MainScreen(
                 }
             },
             toDoEditScreenContent = {
-                EditToDoScreen(toDo = ItemToDo()) {
+                EditToDoScreen(toDo = ItemToDo(),toDoEditViewModel) {
+                    toDoEditViewModel.add()
                     navigationState.navHostController.popBackStack()
                 }
             },

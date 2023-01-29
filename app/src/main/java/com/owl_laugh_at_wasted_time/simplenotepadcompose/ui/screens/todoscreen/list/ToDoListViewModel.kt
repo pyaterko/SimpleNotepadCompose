@@ -19,19 +19,12 @@ class ToDoListViewModel @Inject constructor(
     private val repository: ToDoRepository
 ) : ViewModel() {
 
-
     val listState =
         repository.getAllData()
             .map { ToDoListScreenState.ToDoList(it) as ToDoListScreenState }
             .onStart { ToDoListScreenState.Initial }
             .asLiveData()
 
-
-    fun add(toDo: ItemToDo) {
-        viewModelScope.launch {
-            repository.add(toDo)
-        }
-    }
 
     fun delete(toDo: ItemToDo) {
         viewModelScope.launch {

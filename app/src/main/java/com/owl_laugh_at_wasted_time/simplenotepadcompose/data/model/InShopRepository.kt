@@ -4,6 +4,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.dao.ShoppingDao
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.entuty.ItemShoppingDbModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemShopping
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.repositores.ShoppingRepository
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject

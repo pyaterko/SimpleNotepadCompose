@@ -8,7 +8,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants.DATABAS
 
 @Entity(tableName = DATABASE_TABLE_TODO)
 data class ItemToDoDbModel(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,
     val dateOfCreation: String,

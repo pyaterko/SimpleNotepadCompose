@@ -1,30 +1,31 @@
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.model.InToDoRepository
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
+class ToDoEditViewModel @Inject constructor(
+    private val repository: InToDoRepository,
+) : ViewModel() {
 
-class ToDoEditViewModel(
-    private val toDo: ItemToDo
-): ViewModel() {
+     val id: MutableState<Int> = mutableStateOf(0)
+    val title: MutableState<String> = mutableStateOf("")
+    val description: MutableState<String> = mutableStateOf("")
 
-    private val initialState = ToDoEditScreenState.EditToDo(ItemToDo())
-    private var savedState: ToDoEditScreenState? = initialState
-
-    private val _screenState = MutableLiveData<ToDoEditScreenState>(initialState)
-    val screenState: LiveData<ToDoEditScreenState> = _screenState
-
-    fun addToDo() {
-        savedState = _screenState.value
-        _screenState.value = ToDoEditScreenState.EditToDo(ItemToDo())
+    fun add() {
+        viewModelScope.launch {
+            repository.add(ItemToDo(
+                id = id.value,
+                title = title.value,
+                data = description.value))
+        }
     }
 
-    fun closeEdit() {
-        _screenState.value = savedState
-    }
 }
