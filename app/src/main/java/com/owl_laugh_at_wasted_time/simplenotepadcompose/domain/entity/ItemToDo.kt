@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 data class ItemToDo (
     var id: Int = UNDEFINED_ID,
-    var title: String = "",
+    var title: String = "title",
     var dateOfCreation: String = SimpleDateFormat(
         DATE_FORMAT_IN,
         Locale.getDefault()

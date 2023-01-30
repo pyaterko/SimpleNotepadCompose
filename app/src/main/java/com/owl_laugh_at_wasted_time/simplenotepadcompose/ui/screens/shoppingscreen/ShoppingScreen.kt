@@ -68,7 +68,7 @@ fun ShoppingScreen(shopViewModel: ShoppingScreenViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    top = 38.dp,
+                    top = 8.dp,
                     start = 8.dp,
                     end = 8.dp
                 )

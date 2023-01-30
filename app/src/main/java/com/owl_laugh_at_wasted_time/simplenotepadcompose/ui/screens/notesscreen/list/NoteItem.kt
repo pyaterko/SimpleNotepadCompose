@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.list
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -20,25 +20,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.R
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.rememberNavigationState
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
 
 @Composable
-fun ToDoItem(
-    item: ItemToDo,
-    onItemClickListener: (ItemToDo) -> Unit,
-    onClickDeleteIcon: (ItemToDo) -> Unit,
+fun NoteItem(
+    itemNote: ItemNote,
+    onItemClickListener:(ItemNote)->Unit,
+    onClickDeleteIcon: (ItemNote)->Unit
 ) {
-    val toDoItem = item
-    Row(
+    Row (
         modifier = Modifier.clickable {
-            onItemClickListener.invoke(toDoItem)
+            onItemClickListener.invoke(itemNote)
         }
-    ) {
+            ){
+
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
+                .padding( 8.dp),
             shape = RoundedCornerShape(
                 topStart = 18.dp,
                 bottomEnd = 18.dp
@@ -57,14 +56,14 @@ fun ToDoItem(
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 8.dp),
-                    text = toDoItem.title,
-                    color = Color.Black,
+                    text = itemNote.title,
+                    color=Color.Black,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 20.sp,
 
-                    )
+                )
                 IconButton(onClick = {
-                    onClickDeleteIcon.invoke(toDoItem)
+                    onClickDeleteIcon.invoke(itemNote)
                 }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
@@ -76,20 +75,15 @@ fun ToDoItem(
                 }
 
             }
-
-
         }
     }
 }
 
 @Preview
 @Composable
-fun ToDoItemPreview() {
-    val navigationState = rememberNavigationState()
-    ToDoItem(
-       item = ItemToDo(
-            title = "obo"
-        ),
-        onItemClickListener = {}
-        , onClickDeleteIcon = {})
+fun NoteItemPreview(){
+   NoteItem(itemNote = ItemNote(
+        title = "note"
+    ), onItemClickListener = {},
+       onClickDeleteIcon = {})
 }

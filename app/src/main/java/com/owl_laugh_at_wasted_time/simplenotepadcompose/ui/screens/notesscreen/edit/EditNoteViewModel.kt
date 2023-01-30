@@ -1,17 +1,35 @@
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.edit
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.repositores.NoteRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EditNoteViewModel : ViewModel() {
+@HiltViewModel
+class EditNoteViewModel @Inject constructor(
+    private val repository: NoteRepository,
+) : ViewModel() {
 
-    private val initialState = EditNoteScreenState.EditNote(ItemNote())
+    val id: MutableState<Int> = mutableStateOf(0)
+    val title: MutableState<String> = mutableStateOf("")
+    val description: MutableState<String> = mutableStateOf("")
 
-    private val _screenState = MutableLiveData<EditNoteScreenState>(initialState)
-    val screenState: LiveData<EditNoteScreenState> = _screenState
+    fun add() {
+        viewModelScope.launch {
+            repository.add(
+                ItemNote(
+                    id = id.value,
+                    title = title.value,
+                    text = description.value
+                )
+            )
+        }
+    }
 
 
 }

@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -7,13 +7,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit.ToDoEditViewModel
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyTextFieldColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -23,9 +21,8 @@ fun EditToDoScreen(
     onBackPressed: () -> Unit,
 ) {
 
-    val id:Int by toDoEditViewModel.id
-    val title: String by toDoEditViewModel.title
-    val description: String by toDoEditViewModel.description
+    val title = toDoEditViewModel.title
+    val description = toDoEditViewModel.description
     toDoEditViewModel.id.value = toDo.id
     toDoEditViewModel.title.value = toDo.title
     toDoEditViewModel.description.value = toDo.data
@@ -47,11 +44,11 @@ fun EditToDoScreen(
 
         }
     ) {
-        EditToDoScreenContent(title = title,
+        EditToDoScreenContent(title = title.value,
             onTitleChange = {
                 toDoEditViewModel.title.value = it
             },
-            description = description,
+            description = description.value,
             onDescriptionChange = {
                 toDoEditViewModel.description.value = it
             })
@@ -79,55 +76,27 @@ fun EditToDoScreenContent(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Title") },
             value = title,
-            onValueChange = {onTitleChange(it)},
-            colors = myTextFieldColors())
+            onValueChange = { onTitleChange(it) },
+            colors = MyTextFieldColors())
 
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
             label = { Text(text = "Description") },
             value = description,
-            onValueChange = {onDescriptionChange(it)},
+            onValueChange = { onDescriptionChange(it) },
             textStyle = MaterialTheme.typography.body2,
-            colors = myTextFieldColors())
+            colors = MyTextFieldColors())
 
     }
-}
-
-
-@Composable
-fun myTextFieldColors(): TextFieldColors {
-    return TextFieldDefaults.textFieldColors(
-        textColor = Color.Black,
-        disabledTextColor = Color.Black,
-        backgroundColor = Color.White,
-        cursorColor = Color.Blue,
-        errorCursorColor = Color.Red,
-        unfocusedLabelColor = Color.Gray,
-        focusedLabelColor = Color.Blue,
-        leadingIconColor = Color.Red,
-        focusedIndicatorColor = Color.Blue,
-        unfocusedIndicatorColor = Color.Gray,
-        errorIndicatorColor = Color.Red,
-        disabledIndicatorColor = Color.Red,
-        disabledLeadingIconColor = Color.Red,
-        errorLeadingIconColor = Color.Red,
-        trailingIconColor = Color.Blue,
-        disabledTrailingIconColor = Color.Red,
-        errorTrailingIconColor = Color.Red,
-        disabledLabelColor = Color.Red,
-        errorLabelColor = Color.Blue,
-        placeholderColor = Color.Blue,
-        disabledPlaceholderColor = Color.Blue,
-    )
 }
 
 @Preview
 @Composable
 fun EditToDoScreenContentPreview() {
     EditToDoScreenContent(
-        title = "Dermo",
+        title = "title",
         onTitleChange = {},
-        description = "Ebobo",
+        description = "description",
         onDescriptionChange = {}
     )
 }

@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Checkbox
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,12 +32,13 @@ import coil.request.ImageRequest
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.R
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemShopping
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.theme.SimpleNotepadComposeTheme
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyCheckBoxColors
 
 @Composable
 fun ShopItem(
     itemShopping: ItemShopping,
-    onChecked:(ItemShopping) -> Unit,
-    onClickDeleteIcon: (ItemShopping) -> Unit
+    onChecked: (ItemShopping) -> Unit,
+    onClickDeleteIcon: (ItemShopping) -> Unit,
 ) {
     Row {
         val matrix = ColorMatrix()
@@ -52,7 +56,6 @@ fun ShopItem(
             contentScale = ContentScale.Crop,
             colorFilter = ColorFilter.colorMatrix(matrix)
         )
-
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -65,7 +68,6 @@ fun ShopItem(
             border = BorderStroke(1.dp, Color.Yellow)
 
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -75,7 +77,7 @@ fun ShopItem(
                 }
                 Checkbox(
                     checked = checked,
-                    colors = myCheckBoxColors(),
+                    colors = MyCheckBoxColors(),
                     onCheckedChange = {
                         checked = !checked
                         onChecked.invoke(itemShopping.copy(done = checked))
@@ -86,7 +88,6 @@ fun ShopItem(
                 } else {
                     TextDecoration.None
                 }
-
                 Text(
                     modifier = Modifier
                         .weight(1f)
@@ -100,33 +101,23 @@ fun ShopItem(
                     onClickDeleteIcon.invoke(itemShopping)
                 }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
+                        painter = painterResource(
+                            id = R.drawable.ic_baseline_delete_outline_24),
                         contentDescription = "",
                         modifier = Modifier
-                            .padding(end = 8.dp)
-
+                            .padding(end = 8.dp
+                            )
                     )
                 }
-
             }
-
-
         }
     }
-}
-
-@Composable
-fun myCheckBoxColors(): CheckboxColors {
-    return CheckboxDefaults.colors(
-        checkedColor = MaterialTheme.colors.onSecondary,
-        uncheckedColor = MaterialTheme.colors.onPrimary
-    )
 }
 
 @Preview
 @Composable
 fun ShopItemPreview() {
     SimpleNotepadComposeTheme {
-        ShopItem(ItemShopping(),{}) {}
+        ShopItem(ItemShopping(), {}) {}
     }
 }

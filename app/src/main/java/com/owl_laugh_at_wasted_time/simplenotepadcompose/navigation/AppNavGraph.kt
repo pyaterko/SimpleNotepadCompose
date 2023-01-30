@@ -4,14 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,
     toDoListScreenContent: @Composable () -> Unit,
-    toDoEditScreenContent: @Composable () -> Unit,
+    toDoEditScreenContent: @Composable (ItemToDo) -> Unit,
     notesListScreenContent: @Composable () -> Unit,
-    noteEditScreenContent: @Composable () -> Unit,
+    noteEditScreenContent: @Composable (ItemNote) -> Unit,
     shopScreenContent: @Composable () -> Unit
 ) {
     NavHost(

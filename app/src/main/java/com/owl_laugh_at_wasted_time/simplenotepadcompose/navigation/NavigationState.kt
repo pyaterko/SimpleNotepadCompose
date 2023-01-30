@@ -5,6 +5,8 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 
 class NavigationState(
     val navHostController: NavHostController
@@ -19,11 +21,11 @@ class NavigationState(
         }
     }
 
-    fun editToDo() {
-        navHostController.navigate(Screen.ToDoEdit.route)
+    fun editToDo(itemToDo: ItemToDo) {
+        navHostController.navigate(Screen.ToDoEdit.getRouteWithArgs(itemToDo))
     }
-    fun editNote(){
-        navHostController.navigate(Screen.NoteEdit.route)
+    fun editNote(itemNote: ItemNote){
+        navHostController.navigate(Screen.NoteEdit.getRouteWithArgs(itemNote))
     }
 
 }
