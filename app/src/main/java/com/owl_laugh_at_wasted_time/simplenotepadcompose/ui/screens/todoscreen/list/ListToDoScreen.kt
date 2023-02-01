@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
@@ -18,10 +19,11 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.T
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ListToDoScreen(
-    toDoListViewModel:ToDoListViewModel,
+    toDoListViewModel: ToDoListViewModel,
     state: ToDoListScreenState,
     onItemClickListener: (ItemToDo) -> Unit,
-    editTodo:() -> Unit) {
+    editTodo: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.padding(bottom = 48.dp),
         topBar = {
@@ -29,7 +31,7 @@ fun ListToDoScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {editTodo()}
+                onClick = { editTodo() }
             ) {
                 Icon(Icons.Filled.Add, contentDescription = null)
             }
@@ -56,13 +58,12 @@ private fun ListTodo(
     ) {
         when (state) {
             is ToDoListScreenState.ToDoList -> {
-                val list = state.list
-                items(list.size) { index ->
+                itemsIndexed(state.list) { _, item ->
                     ToDoItem(
-                        item = list[index],
+                        item = item,
                         onItemClickListener = onItemClickListener,
                         onClickDeleteIcon = {
-                            toDoListViewModel.delete(list[index])
+                            toDoListViewModel.delete(item)
                         })
                 }
             }
