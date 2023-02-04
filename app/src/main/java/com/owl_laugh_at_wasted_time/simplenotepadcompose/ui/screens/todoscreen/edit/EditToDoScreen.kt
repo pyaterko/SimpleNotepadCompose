@@ -1,16 +1,20 @@
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit
 
 import android.annotation.SuppressLint
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyTextFieldColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -20,6 +24,9 @@ fun EditToDoScreen(
     toDoEditViewModel: ToDoEditViewModel,
     onBackPressed: () -> Unit,
 ) {
+    if (toDo.id != Constants.UNDEFINED_ID) {
+        HandleBackButton(onBackPressed = { onBackPressed() })
+    }
 
     val title = toDoEditViewModel.title
     val description = toDoEditViewModel.description
@@ -70,14 +77,16 @@ fun EditToDoScreenContent(
                 start = 8.dp,
                 top = 8.dp,
                 end = 8.dp,
-                bottom = 70.dp)
+                bottom = 70.dp
+            )
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Title") },
             value = title,
             onValueChange = { onTitleChange(it) },
-            colors = MyTextFieldColors())
+            colors = MyTextFieldColors()
+        )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
@@ -85,8 +94,34 @@ fun EditToDoScreenContent(
             value = description,
             onValueChange = { onDescriptionChange(it) },
             textStyle = MaterialTheme.typography.body2,
-            colors = MyTextFieldColors())
+            colors = MyTextFieldColors()
+        )
 
+    }
+}
+
+@Composable
+fun HandleBackButton(
+    backPressedDispatcher: OnBackPressedDispatcher? =
+        LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
+    onBackPressed: () -> Unit,
+) {
+    val currentOnBackPressed by rememberUpdatedState(newValue = (onBackPressed))
+
+    val callback = remember {
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                currentOnBackPressed()
+            }
+        }
+    }
+
+    DisposableEffect(key1 = backPressedDispatcher) {
+        backPressedDispatcher?.addCallback(callback)
+
+        onDispose {
+            callback.remove()
+        }
     }
 }
 

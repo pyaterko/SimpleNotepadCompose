@@ -10,6 +10,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants.DATABAS
 data class ItemToDoDbModel(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
+    val key:Int,
     val title: String,
     val dateOfCreation: String,
     var data: String,
@@ -17,6 +18,7 @@ data class ItemToDoDbModel(
 ) {
     fun toItemToDo() = ItemToDo(
         id = id,
+        key=key,
         title = title,
         done = done,
         dateOfCreation = dateOfCreation,
@@ -27,6 +29,7 @@ data class ItemToDoDbModel(
         fun fromItemToDo(item: ItemToDo) =
             ItemToDoDbModel(
                 id = item.id,
+                key=item.key,
                 title = item.title,
                 done = item.done,
                 dateOfCreation = item.dateOfCreation,

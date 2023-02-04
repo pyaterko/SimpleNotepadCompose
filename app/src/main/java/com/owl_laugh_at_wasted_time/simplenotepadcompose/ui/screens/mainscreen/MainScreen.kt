@@ -40,9 +40,10 @@ fun MainScreen(
             navHostController = navigationState.navHostController,
             toDoListScreenContent = {
                 ToDoScreen(
+                    navigationState = navigationState,
                     toDoListViewModel = toDoListViewModel,
                     onItemClickListener = {
-                        navigationState.editToDo(it)
+
                     },
                     {
                         navigationState.editToDo(ItemToDo())
@@ -52,7 +53,8 @@ fun MainScreen(
             toDoEditScreenContent = { item ->
                 EditToDoScreen(
                     toDo = item,
-                   toDoEditViewModel =  toDoEditViewModel) {
+                    toDoEditViewModel = toDoEditViewModel
+                ) {
                     toDoEditViewModel.add()
                     navigationState.navHostController.popBackStack()
                 }
@@ -66,10 +68,11 @@ fun MainScreen(
                     navigationState.editNote(ItemNote())
                 }
             },
-            noteEditScreenContent = {item->
+            noteEditScreenContent = { item ->
                 EditNoteScreen(
-                   itemNote =  item,
-                    editNoteViewModel = editNoteViewModel) {
+                    itemNote = item,
+                    editNoteViewModel = editNoteViewModel
+                ) {
                     editNoteViewModel.add()
                     navigationState.navHostController.popBackStack()
                 }

@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 data class ItemToDo (
     var id: Int = UNDEFINED_ID,
+    val key:Int=kotlin.random.Random.nextInt(),
     var title: String = "title",
     var dateOfCreation: String = SimpleDateFormat(
         DATE_FORMAT_IN,

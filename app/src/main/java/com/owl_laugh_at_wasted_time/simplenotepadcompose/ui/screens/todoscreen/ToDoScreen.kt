@@ -2,8 +2,8 @@ package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.navigation.NavHostController
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.NavigationState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ListToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListScreenState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListViewModel
@@ -11,6 +11,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.l
 
 @Composable
 fun ToDoScreen(
+    navigationState: NavigationState,
     toDoListViewModel: ToDoListViewModel,
     onItemClickListener: (ItemToDo) -> Unit,
     editTodo: () -> Unit,
@@ -20,10 +21,12 @@ fun ToDoScreen(
     when (screenState.value) {
         is ToDoListScreenState.ToDoList -> {
             ListToDoScreen(
+                navigationState,
                 toDoListViewModel,
                 screenState.value,
-                onItemClickListener
-            )
+                onItemClickListener,
+
+                )
             { editTodo() }
         }
 

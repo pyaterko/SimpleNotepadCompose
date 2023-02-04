@@ -1,25 +1,21 @@
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.R
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.rememberNavigationState
 
@@ -27,7 +23,6 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.rememberNavi
 fun ToDoItem(
     item: ItemToDo,
     onItemClickListener: (ItemToDo) -> Unit,
-    onClickDeleteIcon: (ItemToDo) -> Unit,
 ) {
     val toDoItem = item
     Row(
@@ -63,21 +58,7 @@ fun ToDoItem(
                     fontSize = 20.sp,
 
                     )
-                IconButton(onClick = {
-                    onClickDeleteIcon.invoke(toDoItem)
-                }) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_baseline_delete_outline_24),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-
-                    )
-                }
-
             }
-
-
         }
     }
 }
@@ -87,9 +68,8 @@ fun ToDoItem(
 fun ToDoItemPreview() {
     val navigationState = rememberNavigationState()
     ToDoItem(
-       item = ItemToDo(
+        item = ItemToDo(
             title = "obo"
         ),
-        onItemClickListener = {}
-        , onClickDeleteIcon = {})
+        onItemClickListener = {})
 }
