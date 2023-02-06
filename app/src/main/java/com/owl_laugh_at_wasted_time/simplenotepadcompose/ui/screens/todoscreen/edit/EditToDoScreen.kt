@@ -15,7 +15,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyTextFieldColors
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.myTextFieldColors
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -85,7 +86,7 @@ fun EditToDoScreenContent(
             label = { Text(text = "Title") },
             value = title,
             onValueChange = { onTitleChange(it) },
-            colors = MyTextFieldColors()
+            colors = myTextFieldColors()
         )
 
         OutlinedTextField(
@@ -94,7 +95,7 @@ fun EditToDoScreenContent(
             value = description,
             onValueChange = { onDescriptionChange(it) },
             textStyle = MaterialTheme.typography.body2,
-            colors = MyTextFieldColors()
+            colors = myTextFieldColors()
         )
 
     }

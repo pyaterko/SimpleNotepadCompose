@@ -32,7 +32,7 @@ import coil.request.ImageRequest
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.R
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemShopping
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.theme.SimpleNotepadComposeTheme
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyCheckBoxColors
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.myCheckBoxColors
 
 @Composable
 fun ShopItem(
@@ -77,7 +77,7 @@ fun ShopItem(
                 }
                 Checkbox(
                     checked = checked,
-                    colors = MyCheckBoxColors(),
+                    colors = myCheckBoxColors(),
                     onCheckedChange = {
                         checked = !checked
                         onChecked.invoke(itemShopping.copy(done = checked))

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 
 
 @Composable
-fun MyCheckBoxColors(): CheckboxColors {
+fun myCheckBoxColors(): CheckboxColors {
     return CheckboxDefaults.colors(
         checkedColor = MaterialTheme.colors.onSecondary,
         uncheckedColor = MaterialTheme.colors.onPrimary

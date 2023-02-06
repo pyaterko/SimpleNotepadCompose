@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 
 
 @Composable
-fun MyTextFieldColors(): TextFieldColors {
+fun myTextFieldColors(): TextFieldColors {
     return TextFieldDefaults.textFieldColors(
         textColor = Color.Black,
         disabledTextColor = Color.Black,

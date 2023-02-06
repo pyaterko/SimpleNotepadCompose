@@ -11,11 +11,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.MyTextFieldColors
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.myTextFieldColors
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -75,14 +74,16 @@ fun EditNoteScreenContent(
                 start = 8.dp,
                 top = 8.dp,
                 end = 8.dp,
-                bottom = 70.dp)
+                bottom = 70.dp
+            )
     ) {
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Title") },
             value = title,
             onValueChange = { onTitleChange(it) },
-            colors = MyTextFieldColors())
+            colors = myTextFieldColors()
+        )
 
         OutlinedTextField(
             modifier = Modifier.fillMaxSize(),
@@ -90,7 +91,8 @@ fun EditNoteScreenContent(
             value = description,
             onValueChange = { onDescriptionChange(it) },
             textStyle = MaterialTheme.typography.body2,
-            colors = MyTextFieldColors())
+            colors = myTextFieldColors()
+        )
 
     }
 }

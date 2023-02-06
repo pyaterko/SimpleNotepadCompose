@@ -1,5 +1,3 @@
-@file:Suppress("OPT_IN_IS_NOT_ENABLED")
-
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list
 
 import android.annotation.SuppressLint
@@ -14,8 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -36,7 +33,20 @@ fun ListToDoScreen(
     onItemClickListener: (ItemToDo) -> Unit,
     editTodo: () -> Unit,
 ) {
+    val scaffoldState = rememberScaffoldState()
+    val itemToDo = toDoListViewModel.undoDeleteItemToDo
+    var showSB by remember {
+        mutableStateOf(false)
+    }
+    ToDoDisplaySnackBar(
+        scaffoldState = scaffoldState,
+        onUndoClicked = { toDoListViewModel.add() },
+        toDo = itemToDo.value,
+        isShow = showSB
+    )
+
     Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier.padding(bottom = 48.dp),
         topBar = {
             ToDoScreenAppBar()
@@ -49,9 +59,13 @@ fun ListToDoScreen(
             }
         }
     ) {
-        ListTodo(navigationState, state, onItemClickListener, toDoListViewModel)
+        ListTodo(navigationState, state, onItemClickListener) {
+            toDoListViewModel.delete(it)
+            showSB = true
+        }
     }
 }
+
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -59,8 +73,9 @@ private fun ListTodo(
     navigationState: NavigationState,
     state: ToDoListScreenState,
     onItemClickListener: (ItemToDo) -> Unit,
-    toDoListViewModel: ToDoListViewModel,
-) {
+    onDeleteItemClickListener: (ItemToDo) -> Unit,
+
+    ) {
     LazyColumn(
         contentPadding = PaddingValues(
             top = 4.dp,
@@ -78,7 +93,7 @@ private fun ListTodo(
                     val isDismissedToEdit = dismissState.isDismissed(DismissDirection.StartToEnd)
 
                     if (isDismissedToDelete && dismissDirection == DismissDirection.EndToStart) {
-                        toDoListViewModel.delete(item)
+                        onDeleteItemClickListener.invoke(item)
                     } else if (isDismissedToEdit && dismissDirection == DismissDirection.StartToEnd) {
                         navigationState.editToDo(item)
 
