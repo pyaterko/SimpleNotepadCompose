@@ -17,7 +17,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.rememberNavigationState
 
 @Composable
 fun ToDoItem(
@@ -32,11 +31,11 @@ fun ToDoItem(
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+                .padding(vertical = 8.dp)
+                .fillMaxWidth(),
             shape = RoundedCornerShape(
-                topStart = 18.dp,
-                bottomEnd = 18.dp
+                topStart = 16.dp,
+                bottomEnd = 16.dp
             ),
             elevation = 8.dp,
             border = BorderStroke(1.dp, Color.Yellow)
@@ -51,7 +50,7 @@ fun ToDoItem(
                 Text(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = 8.dp),
+                        .padding(horizontal = 8.dp, vertical = 2.dp),
                     text = toDoItem.title,
                     color = Color.Black,
                     fontFamily = FontFamily.Monospace,
@@ -66,7 +65,6 @@ fun ToDoItem(
 @Preview
 @Composable
 fun ToDoItemPreview() {
-    val navigationState = rememberNavigationState()
     ToDoItem(
         item = ItemToDo(
             title = "obo"

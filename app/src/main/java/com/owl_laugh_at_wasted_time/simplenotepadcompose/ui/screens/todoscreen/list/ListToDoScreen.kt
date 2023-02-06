@@ -1,7 +1,10 @@
+@file:Suppress("OPT_IN_IS_NOT_ENABLED")
+
 package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list
 
 import android.annotation.SuppressLint
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,7 +53,7 @@ fun ListToDoScreen(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
 private fun ListTodo(
     navigationState: NavigationState,
@@ -59,15 +62,13 @@ private fun ListTodo(
     toDoListViewModel: ToDoListViewModel,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(
-                top = 8.dp,
-                start = 8.dp,
-                end = 8.dp
-            )
+        contentPadding = PaddingValues(
+            top = 4.dp,
+            start = 8.dp,
+            end = 8.dp,
+            bottom = 50.dp
+        ),
     ) {
-
         when (state) {
             is ToDoListScreenState.ToDoList -> {
                 itemsIndexed(state.list, key = { _, item -> item.key }) { _, item ->
@@ -92,12 +93,13 @@ private fun ListTodo(
                     )
 
                     SwipeToDismiss(
+                        modifier = Modifier.animateItemPlacement(),
                         state = dismissState,
                         directions = setOf(
                             DismissDirection.EndToStart,
                             DismissDirection.StartToEnd
                         ),
-                        dismissThresholds = { FractionalThreshold(fraction = 0.5f) },
+                        dismissThresholds = { FractionalThreshold(fraction = 0.3f) },
                         background = {
                             when (dismissDirection) {
                                 DismissDirection.StartToEnd -> EditBackground(degrees = degrees)
@@ -128,8 +130,8 @@ fun DeleteBackground(degrees: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Red)
-            .padding(horizontal = 12.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .background(Color.Red.copy(alpha = 0.3f)),
         contentAlignment = Alignment.CenterEnd
     )
     {
@@ -142,7 +144,9 @@ fun DeleteBackground(degrees: Float) {
                 fontWeight = FontWeight.Bold
             )
             Icon(
-                modifier = Modifier.rotate(degrees),
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .rotate(degrees),
                 imageVector = Icons.Filled.Delete,
                 contentDescription = null,
                 tint = Color.White
@@ -156,14 +160,16 @@ fun EditBackground(degrees: Float) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Blue)
-            .padding(horizontal = 12.dp),
+            .padding(vertical = 8.dp, horizontal = 16.dp)
+            .background(Color.Blue.copy(alpha = 0.3f)),
         contentAlignment = Alignment.CenterStart
     )
     {
         Row {
             Icon(
-                modifier = Modifier.rotate(degrees),
+                modifier = Modifier
+                    .padding(start = 8.dp)
+                    .rotate(degrees),
                 imageVector = Icons.Filled.Edit,
                 contentDescription = null,
                 tint = Color.White
