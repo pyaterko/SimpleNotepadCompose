@@ -7,9 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.NavigationState
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.common.FabOnTheListScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.ToDoScreenAppBar
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -50,19 +51,12 @@ fun ListToDoScreen(
         modifier = Modifier.padding(bottom = 48.dp),
         topBar = {
             ToDoScreenAppBar()
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { editTodo() }
-            ) {
-                Icon(Icons.Filled.Add, contentDescription = null)
-            }
         }
     ) {
-        ListTodo(navigationState, state, onItemClickListener) {
+        ListTodo(navigationState, state, onItemClickListener,{
             toDoListViewModel.delete(it)
             showSB = true
-        }
+        },editTodo)
     }
 }
 
@@ -74,67 +68,77 @@ private fun ListTodo(
     state: ToDoListScreenState,
     onItemClickListener: (ItemToDo) -> Unit,
     onDeleteItemClickListener: (ItemToDo) -> Unit,
-
+    editTodo: () -> Unit,
     ) {
-    LazyColumn(
-        contentPadding = PaddingValues(
-            top = 4.dp,
-            start = 8.dp,
-            end = 8.dp,
-            bottom = 50.dp
-        ),
-    ) {
-        when (state) {
-            is ToDoListScreenState.ToDoList -> {
-                itemsIndexed(state.list, key = { _, item -> item.key }) { _, item ->
-                    val dismissState = rememberDismissState()
-                    val dismissDirection = dismissState.dismissDirection
-                    val isDismissedToDelete = dismissState.isDismissed(DismissDirection.EndToStart)
-                    val isDismissedToEdit = dismissState.isDismissed(DismissDirection.StartToEnd)
+    Surface(Modifier.fillMaxSize()) {
+        val lazyState = rememberLazyListState()
+        LazyColumn(
+            state = lazyState,
+            contentPadding = PaddingValues(
+                top = 4.dp,
+                start = 8.dp,
+                end = 8.dp,
+                bottom = 50.dp
+            ),
+        ) {
+            when (state) {
+                is ToDoListScreenState.ToDoList -> {
+                    itemsIndexed(state.list, key = { _, item -> item.key }) { _, item ->
+                        val dismissState = rememberDismissState()
+                        val dismissDirection = dismissState.dismissDirection
+                        val isDismissedToDelete =
+                            dismissState.isDismissed(DismissDirection.EndToStart)
+                        val isDismissedToEdit =
+                            dismissState.isDismissed(DismissDirection.StartToEnd)
 
-                    if (isDismissedToDelete && dismissDirection == DismissDirection.EndToStart) {
-                        onDeleteItemClickListener.invoke(item)
-                    } else if (isDismissedToEdit && dismissDirection == DismissDirection.StartToEnd) {
-                        navigationState.editToDo(item)
+                        if (isDismissedToDelete && dismissDirection == DismissDirection.EndToStart) {
+                            onDeleteItemClickListener.invoke(item)
+                        } else if (isDismissedToEdit && dismissDirection == DismissDirection.StartToEnd) {
+                            navigationState.editToDo(item)
+
+                        }
+
+                        val degrees by animateFloatAsState(
+                            targetValue = when (dismissState.targetValue) {
+                                DismissValue.Default -> 0f
+                                DismissValue.DismissedToEnd -> -90f
+                                DismissValue.DismissedToStart -> -45f
+                            }
+                        )
+
+                        SwipeToDismiss(
+                            modifier = Modifier.animateItemPlacement(),
+                            state = dismissState,
+                            directions = setOf(
+                                DismissDirection.EndToStart,
+                                DismissDirection.StartToEnd
+                            ),
+                            dismissThresholds = { FractionalThreshold(fraction = 0.3f) },
+                            background = {
+                                when (dismissDirection) {
+                                    DismissDirection.StartToEnd -> EditBackground(degrees = degrees)
+                                    DismissDirection.EndToStart -> DeleteBackground(degrees = degrees)
+                                    null -> Color.Transparent
+                                }
+                            },
+                            dismissContent = {
+                                ToDoItem(
+                                    item = item,
+                                    onItemClickListener = onItemClickListener,
+                                )
+                            }
+                        )
+
 
                     }
-
-                    val degrees by animateFloatAsState(
-                        targetValue = when (dismissState.targetValue) {
-                            DismissValue.Default -> 0f
-                            DismissValue.DismissedToEnd -> -90f
-                            DismissValue.DismissedToStart -> -45f
-                        }
-                    )
-
-                    SwipeToDismiss(
-                        modifier = Modifier.animateItemPlacement(),
-                        state = dismissState,
-                        directions = setOf(
-                            DismissDirection.EndToStart,
-                            DismissDirection.StartToEnd
-                        ),
-                        dismissThresholds = { FractionalThreshold(fraction = 0.3f) },
-                        background = {
-                            when (dismissDirection) {
-                                DismissDirection.StartToEnd -> EditBackground(degrees = degrees)
-                                DismissDirection.EndToStart -> DeleteBackground(degrees = degrees)
-                                null -> Color.Transparent
-                            }
-                        },
-                        dismissContent = {
-                            ToDoItem(
-                                item = item,
-                                onItemClickListener = onItemClickListener,
-                            )
-                        }
-                    )
-
-
                 }
+                ToDoListScreenState.Initial -> {}
             }
-            ToDoListScreenState.Initial -> {}
         }
+            FabOnTheListScreen(lazyState, Modifier.padding(bottom = 12.dp)
+            .wrapContentSize(align = Alignment.BottomEnd)) {
+                editTodo()
+            }
 
     }
 }
