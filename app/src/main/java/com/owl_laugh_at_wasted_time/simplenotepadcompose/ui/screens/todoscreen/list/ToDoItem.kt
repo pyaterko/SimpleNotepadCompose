@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,10 +23,9 @@ fun ToDoItem(
     item: ItemToDo,
     onItemClickListener: (ItemToDo) -> Unit,
 ) {
-    val toDoItem = item
     Row(
         modifier = Modifier.clickable {
-            onItemClickListener.invoke(toDoItem)
+            onItemClickListener.invoke(item)
         }
     ) {
         Card(
@@ -46,17 +45,25 @@ fun ToDoItem(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
+                var isExpanded by remember {
+                    mutableStateOf(false)
+                }
                 Text(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(horizontal = 8.dp, vertical = 2.dp),
-                    text = toDoItem.title,
+                        .padding(
+                            horizontal = 8.dp,
+                            vertical = 2.dp
+                        )
+                        .clickable {
+                            isExpanded = !isExpanded
+                        },
+                    maxLines = if (isExpanded) 100 else 1,
+                    text = "${item.title}\n${item.data} ",
                     color = Color.Black,
                     fontFamily = FontFamily.Monospace,
                     fontSize = 20.sp,
-
-                    )
+                )
             }
         }
     }

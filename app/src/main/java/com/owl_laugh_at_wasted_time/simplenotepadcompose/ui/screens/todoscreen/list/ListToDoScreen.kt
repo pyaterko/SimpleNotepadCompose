@@ -13,17 +13,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.NavigationState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.common.FabOnTheListScreen
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreenAppBar
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.theme.SimpleNotepadComposeTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -34,30 +36,39 @@ fun ListToDoScreen(
     onItemClickListener: (ItemToDo) -> Unit,
     editTodo: () -> Unit,
 ) {
-    val scaffoldState = rememberScaffoldState()
-    val itemToDo = toDoListViewModel.undoDeleteItemToDo
-    var showSB by remember {
-        mutableStateOf(false)
-    }
-    ToDoDisplaySnackBar(
-        scaffoldState = scaffoldState,
-        onUndoClicked = { toDoListViewModel.add() },
-        toDo = itemToDo.value,
-        isShow = showSB
-    )
+    val screenState = toDoListViewModel.listState.observeAsState(ToDoListScreenState.Initial)
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        modifier = Modifier.padding(bottom = 48.dp),
-        topBar = {
-            ToDoScreenAppBar()
+    when (screenState.value) {
+        is ToDoListScreenState.ToDoList -> {
+            val scaffoldState = rememberScaffoldState()
+            val itemToDo = toDoListViewModel.undoDeleteItemToDo
+            val showSB = remember {
+                mutableStateOf(false)
+            }
+            ToDoDisplaySnackBar(
+                scaffoldState = scaffoldState,
+                onUndoClicked = { toDoListViewModel.add() },
+                toDo = itemToDo,
+                isShow = showSB
+            )
+
+            Scaffold(
+                scaffoldState = scaffoldState,
+                modifier = Modifier.padding(bottom = 48.dp),
+                topBar = {
+                    ToDoScreenAppBar()
+                }
+            ) {
+                ListTodo(navigationState, state, onItemClickListener,{
+                    toDoListViewModel.delete(it)
+                    showSB.value = true
+                },editTodo)
+            }
         }
-    ) {
-        ListTodo(navigationState, state, onItemClickListener,{
-            toDoListViewModel.delete(it)
-            showSB = true
-        },editTodo)
+
+        ToDoListScreenState.Initial -> {}
     }
+
 }
 
 
@@ -135,8 +146,10 @@ private fun ListTodo(
                 ToDoListScreenState.Initial -> {}
             }
         }
-            FabOnTheListScreen(lazyState, Modifier.padding(bottom = 12.dp)
-            .wrapContentSize(align = Alignment.BottomEnd)) {
+            FabOnTheListScreen(lazyState,
+                Modifier
+                    .padding(bottom = 12.dp)
+                    .wrapContentSize(align = Alignment.BottomEnd)) {
                 editTodo()
             }
 
@@ -201,5 +214,22 @@ fun EditBackground(degrees: Float) {
                 fontWeight = FontWeight.Bold
             )
         }
+    }
+}
+
+
+@Preview(heightDp = 100)
+@Composable
+fun DeleteBackgroundPreview(){
+    SimpleNotepadComposeTheme(true) {
+        DeleteBackground(degrees = 0f)
+    }
+}
+
+@Preview(heightDp = 100)
+@Composable
+fun EditBackgroundPreview(){
+    SimpleNotepadComposeTheme(true) {
+        EditBackground(degrees = 0f)
     }
 }

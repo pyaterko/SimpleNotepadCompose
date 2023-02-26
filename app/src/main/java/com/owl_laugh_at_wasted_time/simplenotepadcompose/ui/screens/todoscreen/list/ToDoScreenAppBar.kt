@@ -1,4 +1,4 @@
-package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen
+package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box

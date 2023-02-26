@@ -3,6 +3,7 @@ package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen
 import android.annotation.SuppressLint
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.AppNavGraph
@@ -14,9 +15,10 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.notesscreen.list.NotesListViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscreen.ShoppingScreenViewModel
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit.EditToDoScreen
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit.ToDoEditViewModel
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ListToDoScreen
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListScreenState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -28,6 +30,7 @@ fun MainScreen(
     notesListViewModel: NotesListViewModel,
     editNoteViewModel: EditNoteViewModel,
 ) {
+    val screenState = toDoListViewModel.listState.observeAsState(ToDoListScreenState.Initial)
     val navigationState = rememberNavigationState()
     Scaffold(
         bottomBar = {
@@ -39,13 +42,14 @@ fun MainScreen(
         AppNavGraph(
             navHostController = navigationState.navHostController,
             toDoListScreenContent = {
-                ToDoScreen(
+                ListToDoScreen(
                     navigationState = navigationState,
                     toDoListViewModel = toDoListViewModel,
+                    state = screenState.value,
                     onItemClickListener = {
 
                     },
-                    {
+                    editTodo = {
                         navigationState.editToDo(ItemToDo())
                     }
                 )

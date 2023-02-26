@@ -4,6 +4,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarResult
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import kotlinx.coroutines.launch
@@ -12,17 +13,17 @@ import kotlinx.coroutines.launch
 fun ToDoDisplaySnackBar(
     scaffoldState: ScaffoldState,
     onUndoClicked: () -> Unit,
-    toDo: ItemToDo,
-    isShow: Boolean,
+    toDo: State<ItemToDo>,
+    isShow:State<Boolean> ,
 ) {
 
     val scope = rememberCoroutineScope()
-    LaunchedEffect(key1 = toDo.key) {
-        if (isShow) {
+    LaunchedEffect(key1 = toDo.value.key) {
+        if (isShow.value) {
             scope.launch {
                 val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    message = setSnackBarMessage(toDo),
-                    actionLabel = setActionLabel(toDo)
+                    message = setSnackBarMessage(toDo.value),
+                    actionLabel = setActionLabel(toDo.value)
                 )
                 undoDeleteNote(snackBarResult, onUndoClicked)
             }
