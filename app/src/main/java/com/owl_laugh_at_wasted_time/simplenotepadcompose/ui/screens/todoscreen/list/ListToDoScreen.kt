@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.navigation.NavigationState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.common.FabOnTheListScreen
-import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen.ToDoScreenAppBar
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.ToDoScreenAppBar
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
