@@ -7,8 +7,6 @@ import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,6 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.myTextFieldColors
+import java.util.*
+import kotlin.random.Random
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -23,35 +23,50 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.myTextFieldColors
 fun EditToDoScreen(
     toDo: ItemToDo,
     toDoEditViewModel: ToDoEditViewModel,
+    setNotification: (String, Long) -> Unit,
     onBackPressed: () -> Unit,
 ) {
-    if (toDo.id != Constants.UNDEFINED_ID) {
-        HandleBackButton(onBackPressed = { onBackPressed() })
-    }
 
+    val itemWhenMovingBack = toDo.copy(key = Random.nextInt(Int.MAX_VALUE))
     val title = toDoEditViewModel.title
     val description = toDoEditViewModel.description
     toDoEditViewModel.id.value = toDo.id
     toDoEditViewModel.title.value = toDo.title
     toDoEditViewModel.description.value = toDo.data
-
+    val m = remember {
+        mutableStateOf(false)
+    }
+    if (toDo.id != Constants.UNDEFINED_ID) {
+        HandleBackButton(onBackPressed = {
+            toDoEditViewModel.onBack(itemWhenMovingBack)
+            onBackPressed()
+        })
+    }
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = toDo.dateOfCreation)
+            EditToDoScreenAppBar(
+                notificationIcon = toDo.title != "",
+                text = toDo.dateOfCreation,
+                onClickDone = {
+                    toDoEditViewModel.add()
+                    onBackPressed()
                 },
-                navigationIcon = {
-                    IconButton(
-                        onClick = { onBackPressed() }
-                    ) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = null)
-                    }
+                onClickDelete = {
+                    toDoEditViewModel.delete(toDo)
+                    onBackPressed()
+                },
+                setNotification = {
+
+                    setNotification(toDo.title, it)
+                },
+                onBackPressed = {
+                    toDoEditViewModel.onBack(itemWhenMovingBack)
+                    onBackPressed()
                 }
             )
-
         }
     ) {
+
         EditToDoScreenContent(title = title.value,
             onTitleChange = {
                 toDoEditViewModel.title.value = it
@@ -60,6 +75,8 @@ fun EditToDoScreen(
             onDescriptionChange = {
                 toDoEditViewModel.description.value = it
             })
+
+
     }
 }
 
@@ -81,6 +98,7 @@ fun EditToDoScreenContent(
                 bottom = 70.dp
             )
     ) {
+
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             label = { Text(text = "Title") },

@@ -13,6 +13,7 @@ import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.shoppingscre
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.edit.ToDoEditViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.todoscreen.list.ToDoListViewModel
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.theme.SimpleNotepadComposeTheme
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.addEvent
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,14 +27,22 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+
             SimpleNotepadComposeTheme {
+
                 MainScreen(
                     shopViewModel,
                     toDoViewModel,
                     toDoEditViewModel,
                     notesListViewModel,
-                    editNotesViewModel)
+                    editNotesViewModel
+                ) { title, time ->
+                    addEvent(title, time)
+                }
+
+
             }
         }
     }

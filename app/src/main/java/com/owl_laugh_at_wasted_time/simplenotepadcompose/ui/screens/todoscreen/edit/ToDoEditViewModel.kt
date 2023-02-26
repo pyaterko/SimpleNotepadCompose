@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.data.model.InToDoRepository
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
+import com.owl_laugh_at_wasted_time.simplenotepadcompose.until.Constants.UNDEFINED_ID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +20,14 @@ class ToDoEditViewModel @Inject constructor(
     val id: MutableState<Int> = mutableStateOf(0)
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
+
+    fun onBack(itemToDo: ItemToDo) {
+        viewModelScope.launch {
+            if (itemToDo.id !=UNDEFINED_ID){
+                repository.add(itemToDo)
+            }
+        }
+    }
 
     fun add() {
         viewModelScope.launch {

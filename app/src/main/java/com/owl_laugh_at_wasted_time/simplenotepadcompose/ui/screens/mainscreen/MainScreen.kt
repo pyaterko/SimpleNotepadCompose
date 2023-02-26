@@ -2,7 +2,7 @@ package com.owl_laugh_at_wasted_time.simplenotepadcompose.ui.screens.mainscreen
 
 import android.annotation.SuppressLint
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemNote
 import com.owl_laugh_at_wasted_time.simplenotepadcompose.domain.entity.ItemToDo
@@ -29,9 +29,11 @@ fun MainScreen(
     toDoEditViewModel: ToDoEditViewModel,
     notesListViewModel: NotesListViewModel,
     editNoteViewModel: EditNoteViewModel,
+    setNotification: (String, Long) -> Unit,
 ) {
     val screenState = toDoListViewModel.listState.observeAsState(ToDoListScreenState.Initial)
     val navigationState = rememberNavigationState()
+
     Scaffold(
         bottomBar = {
             MainScreenBottomNavigation(navigationState)
@@ -57,9 +59,9 @@ fun MainScreen(
             toDoEditScreenContent = { item ->
                 EditToDoScreen(
                     toDo = item,
-                    toDoEditViewModel = toDoEditViewModel
+                    toDoEditViewModel = toDoEditViewModel,
+                    setNotification = setNotification
                 ) {
-                    toDoEditViewModel.add()
                     navigationState.navHostController.popBackStack()
                 }
             },
