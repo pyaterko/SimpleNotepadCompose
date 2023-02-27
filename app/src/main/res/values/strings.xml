@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Simple Notepad Compose</string>
-    <string name="nav_item_todo">Список дел</string>
-    <string name="nav_item_notes">Заметки</string>
-    <string name="nav_item_shopping">Покупки</string>
+    <string name="nav_item_todo">To-do list</string>
+    <string name="nav_item_notes">Notes</string>
+    <string name="nav_item_shopping">Purchases</string>
+
+    <string name="reminder_not_set">Reminder not set</string>
+    <string name="remind_me">Remind me</string>
 
 </resources>

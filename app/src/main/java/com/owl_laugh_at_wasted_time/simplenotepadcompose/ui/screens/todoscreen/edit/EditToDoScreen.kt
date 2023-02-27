@@ -32,7 +32,7 @@ fun EditToDoScreen(
     val description = toDoEditViewModel.description
     toDoEditViewModel.id.value = toDo.id
     toDoEditViewModel.title.value = toDo.title
-    toDoEditViewModel.description.value = toDo.data
+  //  toDoEditViewModel.description.value = toDo.data
     val m = remember {
         mutableStateOf(false)
     }
@@ -56,8 +56,10 @@ fun EditToDoScreen(
                     onBackPressed()
                 },
                 setNotification = {
-
                     setNotification(toDo.title, it)
+                },
+                setDateValueToItem = {
+                    toDoEditViewModel.description.value = it
                 },
                 onBackPressed = {
                     toDoEditViewModel.onBack(itemWhenMovingBack)
@@ -73,10 +75,8 @@ fun EditToDoScreen(
             },
             description = description.value,
             onDescriptionChange = {
-                toDoEditViewModel.description.value = it
+                //  toDoEditViewModel.description.value = it
             })
-
-
     }
 }
 
